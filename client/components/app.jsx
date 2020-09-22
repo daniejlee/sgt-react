@@ -25,10 +25,17 @@ class App extends React.Component {
       .catch(error => console.error(error));
   }
 
+  getAverageGrade() {
+    if (this.state.grades.length > 0) {
+      const sum = this.state.grades.reduce((total, curr) => (total + curr.grade), 0);
+      return Math.round(sum / this.state.grades.length);
+    }
+  }
+
   render() {
     return (
       <div>
-        <Header />
+        <Header avgGrade={this.getAverageGrade()}/>
         <GradeTable grades={this.state.grades} />
       </div>
     );
