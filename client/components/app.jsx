@@ -9,6 +9,8 @@ class App extends React.Component {
     this.state = {
       grades: []
     };
+
+    this.addGrade = this.addGrade.bind(this);
   }
 
   componentDidMount() {
@@ -33,19 +35,19 @@ class App extends React.Component {
     }
   }
 
-  addGrade() {
+  addGrade(newGrade) {
     fetch('/api/grades', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
-      // body: JSON.stringify('form')
+      },
+      body: JSON.stringify(newGrade)
     })
       .then(response => response.json())
       .then(data => {
-        const updatedTodos = this.state.todos.slice();
-        updatedTodos.push(data);
-        this.setState({ todos: updatedTodos });
+        const updatedGrades = this.state.grades.slice();
+        updatedGrades.push(data);
+        this.setState({ grades: updatedGrades });
       })
       .catch(error => {
         console.error(error);
@@ -61,7 +63,7 @@ class App extends React.Component {
             <GradeTable grades={this.state.grades} />
           </div>
           <div className="col">
-            <GradeForm newGrade={this.addGrade} />
+            <GradeForm addGrade={this.addGrade} />
           </div>
         </div>
       </div>
